@@ -1,4 +1,4 @@
-name: Facebook Live Stream
+name: Stream YouTube to Facebook
 
 on:
   workflow_dispatch:
@@ -10,13 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install FFmpeg
+      - name: Install FFmpeg and yt-dlp
         run: |
           sudo apt update
           sudo apt install ffmpeg -y
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
 
-      - name: Start Stream
+      - name: Extract YouTube Stream
         run: |
-          ffmpeg -re -i "https://www.youtube.com/watch?v=teEsU58K7sw" \
-          -c:v copy -c:a aac \
-          -f flv "rtmps://live-api-s.facebook.com:443/rtmp/"
+          URL=$(yt-dlp -g https://www.youtube.com/watch?v=teEsU58K7sw | head -n 1)
+          ffmpeg -re -i "$URL" -c copy -f flv rtmps://live-api-s.facebook.com:443/rtmp/YOUR_STREAM_KEY
