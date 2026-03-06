@@ -18,7 +18,7 @@ jobs:
       - name: Start Streaming
         run: |
           YT_URL="https://www.youtube.com/watch?v=teEsU58K7sw"
-          FB_RTMP="rtmps://live-api-s.facebook.com:443/rtmp/"
+          FB_RTMP="rtmps://live-api-s.facebook.com:443/rtmp/FB-122126113035123253-0-Ab4-8LUft2MjkuMn93OTiE-o"
 
           STREAM=$(yt-dlp -g "$YT_URL" | head -n 1)
 
